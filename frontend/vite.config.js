@@ -1,9 +1,11 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import react from '@vitejs/plugin-react' // ✅ You were missing this line
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [ react() ],
+  plugins: [react()],
+  build: {
+    outDir: 'dist'
+  },
   server: {
     headers: {
       "Cross-Origin-Embedder-Policy": "require-corp",
@@ -17,4 +19,4 @@ export default defineConfig({
       }
     }
   }
-})
+});
