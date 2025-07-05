@@ -14,26 +14,26 @@ const Login = () => {
     const navigate = useNavigate()
 
     function submitHandler(e) {
-      e.preventDefault();
-  
-      axios.post('/users/login', {
-          email,
-          password
-      }).then((res) => {
-          console.log(res.data);
-  
-          // Save token and user to localStorage
-          localStorage.setItem('token', res.data.token);
-          localStorage.setItem('user', JSON.stringify(res.data.user)); // 👈 important
-  
-          setUser(res.data.user);
-  
-          navigate('/');
-      }).catch((err) => {
-          console.log(err.response?.data || err.message);
-      });
-  }
-  
+
+        e.preventDefault()
+
+        axios.post('/users/login', {
+            email,
+            password
+        }).then((res) => {
+            console.log(res.data)
+
+            localStorage.setItem('token', res.data.token);
+localStorage.setItem('user', JSON.stringify(res.data.user)); // ✅ store user in localStorage
+setUser(res.data.user); // ✅ update context
+navigate('/');
+
+
+            navigate('/')
+        }).catch((err) => {
+            console.log(err.response.data)
+        })
+    }
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-900">

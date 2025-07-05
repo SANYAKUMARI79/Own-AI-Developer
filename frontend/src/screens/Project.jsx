@@ -299,42 +299,40 @@ const Project = () => {
 
                         <div className="actions flex gap-2">
                             <button
-                               onClick={async () => {
-                                if (!webContainer || !fileTree) {
-                                    console.error("webContainer or fileTree is null");
-                                    return;
-                                }
-                            
-                                await webContainer.mount(fileTree);
-                            
-                                const installProcess = await webContainer.spawn("npm", ["install"]);
-                            
-                                installProcess.output.pipeTo(new WritableStream({
-                                    write(chunk) {
-                                        console.log(chunk);
+                                onClick={async () => {
+                                    await webContainer.mount(fileTree)
+
+
+                                    const installProcess = await webContainer.spawn("npm", [ "install" ])
+
+
+
+                                    installProcess.output.pipeTo(new WritableStream({
+                                        write(chunk) {
+                                            console.log(chunk)
+                                        }
+                                    }))
+
+                                    if (runProcess) {
+                                        runProcess.kill()
                                     }
-                                }));
-                            
-                                if (runProcess) {
-                                    runProcess.kill();
-                                }
-                            
-                                let tempRunProcess = await webContainer.spawn("npm", ["start"]);
-                            
-                                tempRunProcess.output.pipeTo(new WritableStream({
-                                    write(chunk) {
-                                        console.log(chunk);
-                                    }
-                                }));
-                            
-                                setRunProcess(tempRunProcess);
-                            
-                                webContainer.on('server-ready', (port, url) => {
-                                    console.log(port, url);
-                                    setIframeUrl(url);
-                                });
-                            }}
-                            
+
+                                    let tempRunProcess = await webContainer.spawn("npm", [ "start" ]);
+
+                                    tempRunProcess.output.pipeTo(new WritableStream({
+                                        write(chunk) {
+                                            console.log(chunk)
+                                        }
+                                    }))
+
+                                    setRunProcess(tempRunProcess)
+
+                                    webContainer.on('server-ready', (port, url) => {
+                                        console.log(port, url)
+                                        setIframeUrl(url)
+                                    })
+
+                                }}
                                 className='p-2 px-4 bg-slate-300 text-white'
                             >
                                 run

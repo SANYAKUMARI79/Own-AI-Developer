@@ -1,22 +1,23 @@
-import axios from 'axios';
+// src/config/axios.js
+import axios from "axios";
 
-// Create an Axios instance with the production API URL
 const instance = axios.create({
-  baseURL: 'https://own-ai-developer-4.onrender.com', // Directly use the production API URL
+  baseURL: "https://own-ai-developer-4.onrender.com",
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
-// Automatically attach token to every request
+// ✅ Attach token automatically
 instance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token'); // Get the token from localStorage
+    const token = localStorage.getItem("token");
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`; // Attach token to headers if available
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error); // Handle request errors
-  }
+  (error) => Promise.reject(error)
 );
 
 export default instance;
