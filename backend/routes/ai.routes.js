@@ -6,4 +6,3 @@ router.get('/get-result', aiController.getResult)
 
 
 export default router;
-

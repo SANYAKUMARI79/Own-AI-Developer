@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
     }
 })
 
+
 userSchema.statics.hashPassword = async function (password) {
     return await bcrypt.hash(password, 10);
 }
@@ -34,6 +35,7 @@ userSchema.methods.generateJWT = function () {
         { expiresIn: '24h' }
     );
 }
+
 
 const User = mongoose.model('user', userSchema);
 
