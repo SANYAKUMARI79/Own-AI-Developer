@@ -1,15 +1,12 @@
-// src/config/axios.js
 import axios from "axios";
 
-const instance = axios.create({
-  baseURL: "https://own-ai-developer-4.onrender.com",
-  headers: {
-    "Content-Type": "application/json",
-  },
+const axiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_API_URL, // ✅ Example: "https://own-ai-developer-4.onrender.com"
+  withCredentials: true, // ✅ Allows cookies if you use them
 });
 
-// ✅ Attach token automatically
-instance.interceptors.request.use(
+// ✅ Interceptor ensures token is added fresh every time
+axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -20,4 +17,4 @@ instance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-export default instance;
+export default axiosInstance;
